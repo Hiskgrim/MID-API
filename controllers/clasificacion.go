@@ -84,7 +84,7 @@ func CargarReglasBase() (reglas string) {
 	var reglasbase string = ``
 	var v []models.Predicado
 
-	if err := getJson("http://localhost:8086/v1/predicado/?limit=0", &v); err == nil {
+	if err := getJson("http://"+beego.AppConfig.String("Urlruler")+predicado/?limit=0", &v); err == nil {
 		for _, regla := range v {
 			reglasbase = reglasbase + regla.Nombre + "\n"
 		}
@@ -97,7 +97,7 @@ func CargarReglasBase() (reglas string) {
 func CargarValorPunto() (valor float64) {
 	var valorPunto float64 = 0
 	var v []models.PuntoSalarial
-	if err := getJson("http://localhost:8080/v1/punto_salarial/?limit=0", &v); err == nil {
+	if err := getJson("http://"+beego.AppConfig.String("cdveService")+punto_salarial/?limit=0", &v); err == nil {
 		valorPunto=v[0].ValorPunto
 	} else {
 
@@ -110,7 +110,7 @@ func CargarExperienciaLaboral() (experienciaLaboral int) {
 	var experiencias int = 0
 	var v []models.ExperienciaDocente
 
-	if err := getJson("http://localhost:8081/v1/experiencia_docente/?limit=0", &v); err == nil {
+	if err := getJson("http://"+beego.AppConfig.String("hojasdevidaService")+experiencia_docente/?limit=0", &v); err == nil {
 		experiencias=len(v)
 	} else {
 
@@ -124,7 +124,7 @@ func CargarFormacionAcademica() (titulospregrado int, titulosposgrado int) {
 	var titulosPosgrado int = 0
 	var v []models.FormacionAcademica
 
-	if err := getJson("http://localhost:8081/v1/formacion_academica/?limit=0", &v); err == nil {
+	if err := getJson("http://"+beego.AppConfig.String("hojasdevidaService")+formacion_academica/?limit=0", &v); err == nil {
 		titulosPregrado=len(v)
 		titulosPosgrado=len(v)
 	} else {
@@ -138,7 +138,7 @@ func CargarTrabajosInvestigacion() (trabajosInvestigacion int) {
 	var trabajos int = 0
 	var v []models.Investigacion
 
-	if err := getJson("http://localhost:8081/v1/investigacion/?limit=0", &v); err == nil {
+	if err := getJson("http://"+beego.AppConfig.String("hojasdevidaService")+investigacion/?limit=0", &v); err == nil {
 		trabajos=len(v)
 	} else {
 

@@ -6,10 +6,17 @@ import (
 
 func init() {
 
-	beego.GlobalControllerRouter["contratacion_mid_api/controllers:ClasificacionController"] = append(beego.GlobalControllerRouter["contratacion_mid_api/controllers:ClasificacionController"],
+	beego.GlobalControllerRouter["contratacion_mid_api/controllers:CalculoSalarioController"] = append(beego.GlobalControllerRouter["contratacion_mid_api/controllers:CalculoSalarioController"],
 		beego.ControllerComments{
-			Method: "Clasificar",
-			Router: `/:idPersona/:numSemanas/:numHorasSemanales/:categoria/:dedicacion`,
+			Method: "CalcularSalario",
+			Router: `/:nivelAcademico/:idProfesor/:numHoras/:numSemanas/:categoria/:dedicacion`,
+			AllowHTTPMethods: []string{"post"},
+			Params: nil})
+
+	beego.GlobalControllerRouter["contratacion_mid_api/controllers:ValidarContratoController"] = append(beego.GlobalControllerRouter["contratacion_mid_api/controllers:ValidarContratoController"],
+		beego.ControllerComments{
+			Method: "ValidarContrato",
+			Router: `/:idProfesor/:numHoras/:dedicacion`,
 			AllowHTTPMethods: []string{"post"},
 			Params: nil})
 

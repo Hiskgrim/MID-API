@@ -110,7 +110,7 @@ func CargarReglasBase() (reglas string) {
 	var reglasbase string = ``
 	var v []models.Predicado
 
-	if err := getJson("http://"+beego.AppConfig.String("Urlruler")+"/v1/predicado/?query=Dominio.Id%3A8&limit=0", &v); err == nil {
+	if err := getJson("http://10.20.0.254/ruler/v1/predicado/?query=Dominio.Id%3A8&limit=0", &v); err == nil {
 		for _, regla := range v {
 			reglasbase = reglasbase + regla.Nombre + "\n"
 		}

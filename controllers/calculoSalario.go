@@ -72,11 +72,12 @@ func (c *CalculoSalarioController) CalcularSalario() {
 		//clasificacion := CargarClasificacion()
 
 		var a string
-
-			contratos := m.ProveAll(`valor_contrato(`+nivelAcademico+`,`+idProfesorStr+`,2016,X).`)
+			fmt.Println(`valor_contrato(`+strings.ToLower(nivelAcademico)+`,`+idProfesorStr+`,2016,X).`)
+			contratos := m.ProveAll(`valor_contrato(`+strings.ToLower(nivelAcademico)+`,`+idProfesorStr+`,2016,X).`)
 			for _, solution := range contratos {
 			    a = fmt.Sprintf("%s", solution.ByName_("X"))
 			}
+
 
 
 		f, _ := strconv.ParseFloat(a, 64)

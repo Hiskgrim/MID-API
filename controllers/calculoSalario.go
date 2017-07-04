@@ -6,7 +6,6 @@ import (
 	"github.com/astaxie/beego"
 	. "github.com/mndrix/golog"
 	"strconv"
-	"strings"
 )
 
 // PreliquidacionController operations for Preliquidacion
@@ -73,12 +72,11 @@ func (c *CalculoSalarioController) CalcularSalario() {
 		//clasificacion := CargarClasificacion()
 
 		var a string
-			fmt.Println(`valor_contrato(`+strings.ToLower(nivelAcademico)+`,`+idProfesorStr+`,2016,X).`)
-			contratos := m.ProveAll(`valor_contrato(`+strings.ToLower(nivelAcademico)+`,`+idProfesorStr+`,2016,X).`)
+
+			contratos := m.ProveAll(`valor_contrato(`+nivelAcademico+`,`+idProfesorStr+`,2016,X).`)
 			for _, solution := range contratos {
 			    a = fmt.Sprintf("%s", solution.ByName_("X"))
 			}
-
 
 
 		f, _ := strconv.ParseFloat(a, 64)
@@ -95,7 +93,7 @@ func CargarClasificacion() (reglas string) {
 	var categoria string = ""
 	var v []models.NivelEscalafon
 
-	if err := getJson("http://"+beego.AppConfig.String("hojasdevidaService")+"/v1/nivel_escalafon/?limit=0", &v); err == nil {
+	if err := getJson("http://localhost:8081/v1/nivel_escalafon/?limit=0", &v); err == nil {
 		for _, escalafon := range v {
 			categoria = escalafon.NombreEscalafon
 		}
@@ -110,7 +108,7 @@ func CargarReglasBase() (reglas string) {
 	var reglasbase string = ``
 	var v []models.Predicado
 
-	if err := getJson("http://10.20.0.254/ruler/v1/predicado/?query=Dominio.Id%3A8&limit=0", &v); err == nil {
+	if err := getJson("http://localhost:8086/v1/predicado/?limit=0", &v); err == nil {
 		for _, regla := range v {
 			reglasbase = reglasbase + regla.Nombre + "\n"
 		}
@@ -125,7 +123,7 @@ func CargarExperienciaLaboral() (experienciaLaboral int) {
 	var experiencias int = 0
 	var v []models.ExperienciaDocente
 
-	if err := getJson("http://"+beego.AppConfig.String("hojasdevidaService")+"/v1/experiencia_docente/?limit=0", &v); err == nil {
+	if err := getJson("http://localhost:8081/v1/experiencia_docente/?limit=0", &v); err == nil {
 		experiencias=len(v)
 	} else {
 
@@ -139,7 +137,7 @@ func CargarFormacionAcademica() (titulospregrado int, titulosposgrado int) {
 	var titulosPosgrado int = 0
 	var v []models.FormacionAcademica
 
-	if err := getJson("http://"+beego.AppConfig.String("hojasdevidaService")+"/v1/formacion_academica/?limit=0", &v); err == nil {
+	if err := getJson("http://localhost:8081/v1/formacion_academica/?limit=0", &v); err == nil {
 		titulosPregrado=len(v)
 		titulosPosgrado=len(v)
 	} else {
@@ -153,7 +151,7 @@ func CargarTrabajosInvestigacion() (trabajosInvestigacion int) {
 	var trabajos int = 0
 	var v []models.Investigacion
 
-	if err := getJson("http://"+beego.AppConfig.String("hojasdevidaService")+"/v1/investigacion/?limit=0", &v); err == nil {
+	if err := getJson("http://localhost:8081/v1/investigacion/?limit=0", &v); err == nil {
 		trabajos=len(v)
 	} else {
 

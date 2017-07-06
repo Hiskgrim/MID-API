@@ -20,13 +20,10 @@ func (c *ValidarContratoController) URLMapping() {
 func (c *ValidarContratoController) ValidarContrato (){
 
 	idProfesorStr := c.Ctx.Input.Param(":idProfesor")
-
 	numHorasStr := c.Ctx.Input.Param(":numHoras")
-	//numHoras, _ := strconv.Atoi(numHorasStr)
 	vinculacion := c.Ctx.Input.Param(":dedicacion")
 
 	predicados := `horas_semanales(`+idProfesorStr+`,`+vinculacion+`,`+numHorasStr+`).`+ "\n"
-
 	reglasbase := CargarReglasBase()
 	reglasbase = reglasbase+predicados
 	fmt.Println(reglasbase)

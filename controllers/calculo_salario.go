@@ -19,19 +19,18 @@ func (c *CalculoSalarioController) URLMapping() {
 }
 
 func (c *CalculoSalarioController) CalculoSalarioContratacion() {
-	Vigencia, _, _=time.Now().Date()
 	idVinculacionStr := c.Ctx.Input.Param(":idVincuacion")
 	vinculacionDocente := CargarVinculacionDocente(idVinculacionStr)
 	escalafon := CargarEscalafon(strconv.Itoa(vinculacionDocente.IdPersona))
-	predicados := `categoria(`+strconv.Itoa(vinculacionDocente.IdPersona)+`,`+escalafon+`, `strconv.Itoa(vigencia)`).`+ "\n"
-	predicados = predicados+`vinculacion(`+strconv.Itoa(vinculacionDocente.IdPersona)+`,`+vinculacionDocente.IdDedicacion.NombreDedicacion+`,`strconv.Itoa(vigencia)`).`+ "\n"
-	predicados = predicados+`horas(`+strconv.Itoa(vinculacionDocente.IdPersona)+`,`+strconv.Itoa(vinculacionDocente.NumeroHorasSemanales*vinculacionDocente.NumeroSemanas)+`,`strconv.Itoa(vigencia)`).`+ "\n"
+	predicados := `categoria(`+strconv.Itoa(vinculacionDocente.IdPersona)+`,`+escalafon+`, 2016).`+ "\n"
+	predicados = predicados+`vinculacion(`+strconv.Itoa(vinculacionDocente.IdPersona)+`,`+vinculacionDocente.IdDedicacion.NombreDedicacion+`,2016).`+ "\n"
+	predicados = predicados+`horas(`+strconv.Itoa(vinculacionDocente.IdPersona)+`,`+strconv.Itoa(vinculacionDocente.NumeroHorasSemanales*vinculacionDocente.NumeroSemanas)+`,2016).`+ "\n"
 	reglasbase := CargarReglasBase()
 	reglasbase = reglasbase+predicados
 	fmt.Println(reglasbase)
 	m := NewMachine().Consult(reglasbase)
 	var a string
-	contratos := m.ProveAll(`valor_contrato(`+vinculacionDocente.IdResolucion.NivelAcademico+`,`+strconv.Itoa(vinculacionDocente.IdPersona)+`,`strconv.Itoa(vigencia)`,X).`)
+	contratos := m.ProveAll(`valor_contrato(`+vinculacionDocente.IdResolucion.NivelAcademico+`,`+strconv.Itoa(vinculacionDocente.IdPersona)+`,2016,X).`)
 	for _, solution := range contratos {
 		a = fmt.Sprintf("%s", solution.ByName_("X"))
 	}
@@ -43,7 +42,6 @@ func (c *CalculoSalarioController) CalculoSalarioContratacion() {
 }
 
 func (c *CalculoSalarioController) CalcularSalarioPrecontratacion() {
-	Vigencia, _, _=time.Now().Date()
 	nivelAcademico := c.Ctx.Input.Param(":nivelAcademico")
 	idPersonaStr := c.Ctx.Input.Param(":idProfesor")
 	numHorasStr := c.Ctx.Input.Param(":numHoras")
@@ -52,15 +50,15 @@ func (c *CalculoSalarioController) CalcularSalarioPrecontratacion() {
 	numSemanas, _ := strconv.Atoi(numSemanasStr)
 	categoria := c.Ctx.Input.Param(":categoria")
 	vinculacion := c.Ctx.Input.Param(":dedicacion")
-	predicados := `categoria(`+idPersonaStr+`,`+categoria+`, `strconv.Itoa(vigencia)`).`+ "\n"
-	predicados = predicados+`vinculacion(`+idPersonaStr+`,`+vinculacion+`,`strconv.Itoa(vigencia)`).`+ "\n"
-	predicados = predicados+`horas(`+idPersonaStr+`,`+strconv.Itoa(numHoras*numSemanas)+`,`strconv.Itoa(vigencia)`).`+ "\n"
+	predicados := `categoria(`+idPersonaStr+`,`+categoria+`, 2016).`+ "\n"
+	predicados = predicados+`vinculacion(`+idPersonaStr+`,`+vinculacion+`,2016).`+ "\n"
+	predicados = predicados+`horas(`+idPersonaStr+`,`+strconv.Itoa(numHoras*numSemanas)+`,2016).`+ "\n"
 	reglasbase := CargarReglasBase()
 	reglasbase = reglasbase+predicados
 	fmt.Println(reglasbase)
 	m := NewMachine().Consult(reglasbase)
 	var a string
-	contratos := m.ProveAll(`valor_contrato(`+nivelAcademico+`,`+idPersonaStr+`,`strconv.Itoa(vigencia)`,X).`)
+	contratos := m.ProveAll(`valor_contrato(`+nivelAcademico+`,`+idPersonaStr+`,2016,X).`)
 	for _, solution := range contratos {
 		a = fmt.Sprintf("%s", solution.ByName_("X"))
 	}

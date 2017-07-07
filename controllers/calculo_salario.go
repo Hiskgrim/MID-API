@@ -73,7 +73,7 @@ func CargarEscalafon(idPersona string) (e string) {
 	escalafon := ""
 	var v models.EscalafonPersona
 
-	if err := getJson("http://localhost:8081/v1/escalafon_persona/?query=id_persona_natural:"+idPersona, &v); err == nil {
+	if err := getJson("http://10.20.0.254/cdve_api_crud/v1/escalafon_persona/?query=id_persona_natural:"+idPersona, &v); err == nil {
 		escalafon=v.IdEscalafon.NombreEscalafon
 	}
 	return escalafon
@@ -82,7 +82,7 @@ func CargarEscalafon(idPersona string) (e string) {
 func CargarVinculacionDocente(idVinculacion string) (a models.VinculacionDocente) {
 	var vinculacionDocente models.VinculacionDocente
 
-	if err := getJson("http://localhost:8080/v1/vinculacion_docente/"+idVinculacion, &vinculacionDocente); err == nil {
+	if err := getJson("http://10.20.0.254/cdve_api_crud/v1/vinculacion_docente/"+idVinculacion, &vinculacionDocente); err == nil {
 	} else {
 	}
 	return vinculacionDocente
